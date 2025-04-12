@@ -13,18 +13,18 @@ char **parse_input(const char *input) {
         exit(EXIT_FAILURE);
     }
 
-    char *input_copy = strdup(input); // Create a modifiable copy of the input
+    char *input_copy = strdup(input); 
     if (!input_copy) {
         perror("strdup");
         free(tokens);
         exit(EXIT_FAILURE);
     }
 
-    char *token = strtok(input_copy, " "); // Tokenize the input by spaces
+    char *token = strtok(input_copy, " "); 
     int index = 0;
 
     while (token != NULL) {
-        tokens[index] = strdup(token); // Allocate memory for each token
+        tokens[index] = strdup(token); 
         if (!tokens[index]) {
             perror("strdup");
             free(input_copy);
@@ -41,7 +41,7 @@ char **parse_input(const char *input) {
         token = strtok(NULL, " ");
     }
 
-    tokens[index] = NULL; // Null-terminate the array of tokens
+    tokens[index] = NULL; 
     free(input_copy);
 
     return tokens;

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <signal.h>
 #include "../include/parser.h" 
+#include "../include/executor.h"
 
 #define INPUT_BUFFER_SIZE 1024
 
@@ -32,11 +33,7 @@ int main() {
         }
         char **parsed_commands = parse_input(input);
 
-        // Print the parsed tokens (for testing purposes)
-        printf("Parsed tokens:\n");
-        for (int i = 0; parsed_commands[i] != NULL; i++) {
-            printf("  Token[%d]: %s\n", i, parsed_commands[i]);
-        }
+        execute_commands(parsed_commands);
 
         free_parsed_input(parsed_commands);
     }
