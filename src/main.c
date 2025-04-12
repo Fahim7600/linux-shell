@@ -4,6 +4,7 @@
 #include <signal.h>
 #include "../include/parser.h" 
 #include "../include/executor.h"
+#include "../include/history.h"
 
 #define INPUT_BUFFER_SIZE 1024
 
@@ -31,6 +32,15 @@ int main() {
         if (strlen(input) == 0) {
             continue;
         }
+
+        add_to_history(input);
+        if(strcmp(input, "history") == 0) {
+            display_history();
+            continue;
+        }
+
+
+
         char **parsed_commands = parse_input(input);
 
         execute_commands(parsed_commands);
