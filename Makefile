@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -g
 
 # Source files
-SRCS = src/main.c src/parser.c src/executor.c src/history.c src/signal_handler.c src/utils.c
+SRCS = src/main.c src/parser.c src/executor.c src/history.c src/signal_handler.c src/utils.c src/builtins.c src/signal_handler.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
