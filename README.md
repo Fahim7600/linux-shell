@@ -1,67 +1,74 @@
-
 # Linux Shell
 
-A brief description of what this project does and who it's for
+A custom Linux shell implementation for executing commands, handling redirection, piping, and more. This project is designed for educational purposes and demonstrates how a basic shell works internally.
 
-Core Features
-Command Prompt
+---
 
-1. Display a prompt (e.g., sh>) and read user input.
-Command Execution
+## Features
 
-2. Parse and execute basic Linux commands (e.g., ls, pwd, echo).
-Use fork() and exec() system calls.
-Input and Output Redirection
+### Core Features
+1. **Command Prompt**:
+   - Displays a prompt (e.g., `sh>`) and reads user input.
 
-3. Support input redirection (<).
-Support output redirection (> for overwrite and >> for append).
-Command Piping
+2. **Command Execution**:
+   - Supports basic Linux commands (e.g., `ls`, `pwd`, `echo`) using `fork()` and `exec()` system calls.
 
-4. Support piping (|) for chaining commands.
-Allow multiple pipes (e.g., command1 | command2 | command3).
-Multiple Commands
+3. **Input and Output Redirection**:
+   - Input redirection (`<`) to read input from a file.
+   - Output redirection (`>`) to overwrite a file.
+   - Append redirection (`>>`) to append output to a file.
 
-5. Support multiple commands separated by a semicolon (;).
-Execute commands sequentially.
-Conditional Execution
+4. **Command History**:
+   - Maintains a history of executed commands.
+   - Allows users to view history using the `history` command.
 
-6. Support logical AND (&&) for conditional execution of commands.
-Advanced Features
-Command History
+5. **Change Directory**:
+   - Implements a built-in `cd` command to change the current working directory.
 
-7. Maintain a history of executed commands.
-Allow users to view history (e.g., history command).
-Optionally, allow re-execution of commands from history (e.g., !<command_number>).
-Signal Handling
+6. **Exit Command**:
+   - Implements a built-in `exit` command to terminate the shell.
 
-8. Handle CTRL+C (SIGINT) to terminate the currently running command without exiting the shell.
-Prevent the shell itself from being terminated by CTRL+C.
-Error Handling
+7. **Signal Handling**:
+   - Handles `CTRL+C` (SIGINT) to terminate the currently running command without exiting the shell.
+   - Prevents the shell itself from being terminated by `CTRL+C`.
 
-9. Display appropriate error messages for invalid commands or syntax errors.
-Handle cases like missing files for redirection or invalid pipes.
-Change Directory
+8. **Error Handling**:
+   - Displays appropriate error messages for invalid commands or syntax errors.
+   - Handles cases like missing files for redirection or invalid pipes.
 
-10. Implement a built-in cd command to change the current working directory.
-Exit Command
+---
 
-11. Implement a built-in exit command to terminate the shell.
-Optional Features (Bonus)
-Environment Variables
+## How to Run
 
-12. Support setting and accessing environment variables (e.g., export VAR=value and $VAR).
-Background Execution
+### Prerequisites
+- A Linux-based operating system.
+- GCC compiler installed.
 
-13. Support running commands in the background using & (e.g., command &).
-Tab Completion
+### Steps to Run
+1. Clone the repository or download the source code.
+2. Navigate to the project directory:
+   ```bash
+   cd /path/to/linux-shell
 
-14. Implement basic tab completion for commands and file paths.
-Custom Aliases
 
-15. Allow users to define and use custom aliases for commands (e.g., alias ll='ls -l').
-Job Control
+### Build the shell
+3. Compile the source code:
+   ```bash
+    make
+    ```
+4. Run the shell:
+    ```bash
+    ./shell
+    ```
 
-14. Support job control commands like jobs, fg, and bg.
-Shell Scripting
+### Alternative way to run (optional)
+5. ```bash
+    gcc -o shell src/main.c src/parser.c src/executor.c src/history.c src/signal_handler.c src/builtins.c -Iinclude
+    ```
 
-13. Allow execution of shell scripts (e.g., ./script.sh).
+6. Run the shell:
+    ```bash
+    ./shell
+    ```
+
+    
