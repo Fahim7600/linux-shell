@@ -1,58 +1,53 @@
+#include "../include/parser.h" // Use the definition from parser.h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "parser.h"
 
-#define MAX_TOKENS 128
-
-// Function to parse user input into commands and arguments
-char **parse_input(const char *input) {
-    char **tokens = malloc(MAX_TOKENS * sizeof(char *));
-    if (!tokens) {
+Command *parse_input(const char *input) {
+    Command *cmd = malloc(sizeof(Command));
+    if (!cmd) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
 
-    char *input_copy = strdup(input); 
-    if (!input_copy) {
-        perror("strdup");
-        free(tokens);
-        exit(EXIT_FAILURE);
-    }
+    cmd->args = malloc(MAX_TOKENS * sizeof(char *));
+    cmd->input_file = NULL;
+    cmd->output_file = NULL;
+    cmd->append = 0;
 
-    char *token = strtok(input_copy, " "); 
+    char *input_copy = strdup(input);
+    char *token = strtok(input_copy, " ");
     int index = 0;
 
     while (token != NULL) {
-        tokens[index] = strdup(token); 
-        if (!tokens[index]) {
-            perror("strdup");
-            free(input_copy);
-            free_parsed_input(tokens);
-            exit(EXIT_FAILURE);
+        if (strcmp(token, ">") == 0) {
+            token = strtok(NULL, " ");
+            cmd->output_file = strdup(token);
+        } else if (strcmp(token, ">>") == 0) {
+            token = strtok(NULL, " ");
+            cmd->output_file = strdup(token);
+            cmd->append = 1;
+        } else if (strcmp(token, "<") == 0) {
+            token = strtok(NULL, " ");
+            cmd->input_file = strdup(token);
+        } else {
+            cmd->args[index++] = strdup(token);
         }
-        index++;
-
-        if (index >= MAX_TOKENS - 1) {
-            fprintf(stderr, "Error: Too many tokens\n");
-            break;
-        }
-
         token = strtok(NULL, " ");
     }
 
-    tokens[index] = NULL; 
+    cmd->args[index] = NULL;
     free(input_copy);
-
-    return tokens;
+    return cmd;
 }
 
-// Function to free the memory allocated for parsed input
-void free_parsed_input(char **parsed_input) {
-    if (!parsed_input) return;
-
-    for (int i = 0; parsed_input[i] != NULL; i++) {
-        free(parsed_input[i]);
+void free_command(Command *cmd) {
+    if (!cmd) return;
+    for (int i = 0; cmd->args[i] != NULL; i++) {
+        free(cmd->args[i]);
     }
-    free(parsed_input);
+    free(cmd->args);
+    if (cmd->input_file) free(cmd->input_file);
+    if (cmd->output_file) free(cmd->output_file);
+    free(cmd);
 }

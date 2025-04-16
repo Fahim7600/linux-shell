@@ -6,12 +6,10 @@
 
 void handle_cd(const char *path) {
     if (path == NULL || strlen(path) == 0) {
-        // Default to the home directory if no path is provided
-        path = getenv("HOME");
+        path = getenv("HOME"); // Default to the home directory if no path is provided
     }
 
     if (chdir(path) != 0) {
-        // Print an error message if chdir fails
         perror("cd");
     }
 }

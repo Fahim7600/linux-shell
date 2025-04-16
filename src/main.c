@@ -19,51 +19,48 @@ void cleanup_shell();
 void initialize_history();
 
 int main() {
-    char input[INPUT_BUFFER_SIZE]; 
+    char input[INPUT_BUFFER_SIZE];
     initialize_shell();
 
     while (1) {
         printf("sh> ");
         fflush(stdout);
-    
+
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("\n");
-            break; 
+            break;
         }
-    
+
         input[strcspn(input, "\n")] = '\0';
-    
+
         if (strlen(input) == 0) {
             continue;
         }
-    
+
         add_to_history(input);
-    
-        // Check for the "exit" command
-        if (strcmp(input, "exit") == 0) {
-            cleanup_shell(); // Perform any cleanup if necessary
-            exit(0);         // Exit the shell
-        }
-    
-        // Check for the "history" command
+
         if (strcmp(input, "history") == 0) {
-            display_history();
+            display_history(); // Display the command history
             continue;
         }
-    
-        // Check for the "cd" command
+
         if (strncmp(input, "cd", 2) == 0) {
             char *path = input + 3; // Extract the path after "cd "
-            handle_cd(path);
+            handle_cd(path);        // Call the function to change the directory
             continue;
         }
-    
-        char **parsed_commands = parse_input(input);
-        execute_commands(parsed_commands);
-        free_parsed_input(parsed_commands);
-    }
-    cleanup_shell();
 
+        if (strcmp(input, "exit") == 0) {
+            cleanup_shell();
+            exit(0);
+        }
+
+        Command *cmd = parse_input(input);
+        execute_commands(cmd);
+        free_command(cmd);
+    }
+
+    cleanup_shell();
     return 0;
 }
 
